@@ -8,5 +8,6 @@ export const initialData: AppData = {
     currency: 'USD',
     defaultTaxRate: 0,
     lastInvoiceNumber: 0,
+    termsOfServiceURL: '',
   },
 };

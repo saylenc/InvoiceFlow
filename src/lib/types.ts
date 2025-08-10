@@ -33,6 +33,7 @@ export interface Settings {
   currency: 'USD' | 'EUR' | 'GBP' | 'JPY';
   defaultTaxRate: number;
   lastInvoiceNumber: number;
+  termsOfServiceURL?: string;
 }
 
 export interface AppData {
