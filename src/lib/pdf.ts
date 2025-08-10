@@ -1,6 +1,6 @@
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import type { Invoice, Client } from './types';
+import type { Invoice, Client, Settings } from './types';
 import { calculateTotal } from './utils';
 import { format, parseISO } from 'date-fns';
 
@@ -10,9 +10,17 @@ declare module 'jspdf' {
     }
 }
 
-export function generateInvoicePDF(invoice: Invoice, client: Client) {
+const currencySymbols: Record<Settings['currency'], string> = {
+    USD: '$',
+    EUR: '€',
+    GBP: '£',
+    JPY: '¥',
+}
+
+export function generateInvoicePDF(invoice: Invoice, client: Client, settings: Settings) {
     const doc = new jsPDF();
     const pageWidth = doc.internal.pageSize.getWidth();
+    const currencySymbol = currencySymbols[settings.currency] || '$';
 
     // Header
     doc.setFontSize(28);
@@ -51,8 +59,8 @@ export function generateInvoicePDF(invoice: Invoice, client: Client) {
         index + 1,
         item.description,
         item.quantity,
-        `$${item.unitPrice.toFixed(2)}`,
-        `$${(item.quantity * item.unitPrice).toFixed(2)}`,
+        `${currencySymbol}${item.unitPrice.toFixed(2)}`,
+        `${currencySymbol}${(item.quantity * item.unitPrice).toFixed(2)}`,
     ]);
 
     doc.autoTable({
@@ -73,17 +81,17 @@ export function generateInvoicePDF(invoice: Invoice, client: Client) {
     
     doc.setFontSize(10);
     doc.text('Subtotal:', pageWidth - 60, finalY + 10);
-    doc.text(`$${subtotal.toFixed(2)}`, pageWidth - 20, finalY + 10, { align: 'right' });
+    doc.text(`${currencySymbol}${subtotal.toFixed(2)}`, pageWidth - 20, finalY + 10, { align: 'right' });
 
     doc.text(`Tax (${invoice.tax}%):`, pageWidth - 60, finalY + 16);
-    doc.text(`$${taxAmount.toFixed(2)}`, pageWidth - 20, finalY + 16, { align: 'right' });
+    doc.text(`${currencySymbol}${taxAmount.toFixed(2)}`, pageWidth - 20, finalY + 16, { align: 'right' });
 
     doc.text(`Discount (${invoice.discount}%):`, pageWidth - 60, finalY + 22);
-    doc.text(`-$${discountAmount.toFixed(2)}`, pageWidth - 20, finalY + 22, { align: 'right' });
+    doc.text(`-${currencySymbol}${discountAmount.toFixed(2)}`, pageWidth - 20, finalY + 22, { align: 'right' });
 
     doc.setFont('helvetica', 'bold');
     doc.text('Total:', pageWidth - 60, finalY + 30);
-    doc.text(`$${total.toFixed(2)}`, pageWidth - 20, finalY + 30, { align: 'right' });
+    doc.text(`${currencySymbol}${total.toFixed(2)}`, pageWidth - 20, finalY + 30, { align: 'right' });
 
     // Notes
     if (invoice.notes) {

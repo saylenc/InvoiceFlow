@@ -36,7 +36,7 @@ export function DataTableRowActions<TData>({
 }: DataTableRowActionsProps<TData>) {
   const invoice = row.original as Invoice
   const router = useRouter()
-  const { deleteInvoice, getClientById } = useData()
+  const { data, deleteInvoice, getClientById } = useData()
   const { toast } = useToast()
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
@@ -53,7 +53,7 @@ export function DataTableRowActions<TData>({
     const client = getClientById(invoice.clientId);
     if(client) {
       try {
-        generateInvoicePDF(invoice, client)
+        generateInvoicePDF(invoice, client, data.settings)
         toast({
             title: "PDF Generated",
             description: `Invoice ${invoice.invoiceNumber}.pdf has been downloaded.`,
