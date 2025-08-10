@@ -20,10 +20,13 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 import type { AppData } from '@/lib/types';
+import { initialData } from '@/lib/initial-data';
+import { useRouter } from 'next/navigation';
 
 export default function SettingsPage() {
   const { data, setData } = useData();
   const { toast } = useToast();
+  const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [showClearDataDialog, setShowClearDataDialog] = useState(false);
 
@@ -78,10 +81,13 @@ export default function SettingsPage() {
   };
 
   const handleClearData = () => {
-    // A bit of a hack to "reset" useLocalStorage hook to its initial value.
-    // In a real app, you might have a dedicated reset function in your data provider.
-    localStorage.removeItem('invoice-flow-data');
-    window.location.reload();
+    setData(initialData);
+    setShowClearDataDialog(false);
+    toast({
+        title: "Data Cleared",
+        description: "All application data has been reset."
+    });
+    router.push('/dashboard');
   }
 
   return (
