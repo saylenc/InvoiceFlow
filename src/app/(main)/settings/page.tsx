@@ -88,7 +88,6 @@ export default function SettingsPage() {
         title: "Data Cleared",
         description: "All application data has been reset."
     });
-    router.push('/dashboard');
   }
 
   return (
@@ -129,19 +128,6 @@ export default function SettingsPage() {
                 value={data.settings.defaultTaxRate}
                 onChange={(e) => handleSettingsChange('defaultTaxRate', parseFloat(e.target.value) || 0)}
               />
-            </div>
-             <div className="space-y-2">
-              <Label htmlFor="terms-url">Terms of Service URL</Label>
-              <Input
-                id="terms-url"
-                type="url"
-                placeholder="https://website.com/terms"
-                value={data.settings.termsOfServiceURL || ''}
-                onChange={(e) => handleSettingsChange('termsOfServiceURL', e.target.value)}
-              />
-              <p className="text-xs text-muted-foreground">
-                This link will be added to the footer of your invoice PDFs.
-              </p>
             </div>
           </CardContent>
           <CardFooter>
