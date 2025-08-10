@@ -94,19 +94,26 @@ export function generateInvoicePDF(invoice: Invoice, client: Client, settings: S
     doc.text(`${currencySymbol}${total.toFixed(2)}`, pageWidth - 20, finalY + 30, { align: 'right' });
 
     // Notes
+    let notesY = finalY + 40;
     if (invoice.notes) {
         doc.setFontSize(10);
         doc.setFont('helvetica', 'bold');
-        doc.text('Notes:', 20, finalY + 40);
+        doc.text('Notes:', 20, notesY);
         doc.setFont('helvetica', 'normal');
         const splitNotes = doc.splitTextToSize(invoice.notes, pageWidth - 40);
-        doc.text(splitNotes, 20, finalY + 46);
+        doc.text(splitNotes, 20, notesY + 6);
+        notesY += (splitNotes.length * 5) + 6; 
     }
     
     // Footer
+    const pageHeight = doc.internal.pageSize.getHeight();
     doc.setFontSize(8);
-    doc.text('Thank you for your business!', pageWidth / 2, doc.internal.pageSize.getHeight() - 10, { align: 'center' });
-
+    if(settings.termsOfServiceURL) {
+        doc.setTextColor(0, 0, 255);
+        doc.textWithLink('Terms of Service', 20, pageHeight - 15, { url: settings.termsOfServiceURL });
+        doc.setTextColor(0, 0, 0);
+    }
+    doc.text('Thank you for your business!', pageWidth / 2, pageHeight - 10, { align: 'center' });
 
     doc.save(`invoice-${invoice.invoiceNumber}.pdf`);
 }
