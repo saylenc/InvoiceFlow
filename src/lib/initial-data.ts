@@ -1,9 +1,13 @@
 import type { AppData } from '@/lib/types';
 import { format } from 'date-fns';
 
-const today = new Date();
-const dueDate = new Date();
-dueDate.setDate(today.getDate() + 30);
+const today = new Date('2024-07-29T12:00:00Z');
+const dueDate = new Date('2024-08-28T12:00:00Z');
+const fortyFiveDaysAgo = new Date('2024-06-14T12:00:00Z');
+const fifteenDaysAgo = new Date('2024-07-14T12:00:00Z');
+const sixtyDaysAgo = new Date('2024-05-30T12:00:00Z');
+const thirtyDaysAgo = new Date('2024-06-29T12:00:00Z');
+
 
 export const initialData: AppData = {
   clients: [
@@ -44,8 +48,8 @@ export const initialData: AppData = {
       id: '2',
       invoiceNumber: 'INV-002',
       clientId: '2',
-      issueDate: format(new Date(today.getTime() - 45 * 24 * 60 * 60 * 1000), 'yyyy-MM-dd'),
-      dueDate: format(new Date(today.getTime() - 15 * 24 * 60 * 60 * 1000), 'yyyy-MM-dd'),
+      issueDate: format(fortyFiveDaysAgo, 'yyyy-MM-dd'),
+      dueDate: format(fifteenDaysAgo, 'yyyy-MM-dd'),
       items: [
         { id: '1', description: 'Consulting Services', quantity: 20, unitPrice: 150 },
       ],
@@ -57,8 +61,8 @@ export const initialData: AppData = {
       id: '3',
       invoiceNumber: 'INV-003',
       clientId: '1',
-      issueDate: format(new Date(today.getTime() - 60 * 24 * 60 * 60 * 1000), 'yyyy-MM-dd'),
-      dueDate: format(new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000), 'yyyy-MM-dd'),
+      issueDate: format(sixtyDaysAgo, 'yyyy-MM-dd'),
+      dueDate: format(thirtyDaysAgo, 'yyyy-MM-dd'),
       items: [
         { id: '1', description: 'Mobile App Development', quantity: 1, unitPrice: 5000 },
       ],
