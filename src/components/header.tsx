@@ -8,6 +8,7 @@ import { ThemeToggle } from "./theme-toggle";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from "@/components/ui/sheet";
+import { useState } from "react";
 
 const navItems = [
   { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
@@ -18,6 +19,8 @@ const navItems = [
 
 export function Header() {
   const pathname = usePathname();
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+
 
   const renderNavLinks = (isMobile = false) =>
     navItems.map((item) => (
@@ -26,6 +29,7 @@ export function Header() {
         variant={pathname.startsWith(item.href) ? "secondary" : "ghost"}
         asChild
         className={cn("justify-start", isMobile && "w-full")}
+        onClick={() => isMobile && setIsSheetOpen(false)}
       >
         <Link href={item.href}>
           <item.icon className="mr-2 h-4 w-4" />
@@ -63,7 +67,7 @@ export function Header() {
         <div className="flex items-center gap-2">
           <ThemeToggle />
           <div className="md:hidden">
-            <Sheet>
+            <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon">
                   <Menu className="h-6 w-6" />
