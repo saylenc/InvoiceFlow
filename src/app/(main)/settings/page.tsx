@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useRef } from 'react';
@@ -141,7 +142,12 @@ export default function SettingsPage() {
             <CardDescription>Backup, restore, or clear your application data.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="border-l-4 border-yellow-400 bg-yellow-50 p-4 rounded-md">
+                <p className="text-sm text-yellow-800">
+                    <strong>Note:</strong> All your data is stored securely in your browser's local storage. It is not accessible on other devices or browsers.
+                </p>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-4 pt-4">
                 <Button onClick={handleExportData} variant="outline" className="w-full sm:w-auto">Export Data as JSON</Button>
                 <Button onClick={() => fileInputRef.current?.click()} variant="outline" className="w-full sm:w-auto">Import from JSON</Button>
                 <input
@@ -157,7 +163,7 @@ export default function SettingsPage() {
                     <CardTitle className="text-destructive">Danger Zone</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <p>This action is irreversible. All your invoices, clients, and settings will be permanently deleted.</p>
+                    <p>This action is irreversible. All your invoices, clients, and settings will be permanently deleted from this browser.</p>
                 </CardContent>
                 <CardFooter>
                     <Button variant="destructive" onClick={() => setShowClearDataDialog(true)}>Clear All Data</Button>
