@@ -40,7 +40,7 @@ export default function TermsOfServicePage() {
           <p>By continuing to access or use our Service after any revisions become effective, you agree to be bound by the revised terms. If you do not agree to the new terms, you are no longer authorized to use the Service.</p>
 
           <h2 className="text-xl font-bold mt-6 mb-2">7. Contact Us</h2>
-          <p>If you have any questions about these Terms, please contact us at contact@invoiceflow.com.</p>
+          <p>If you have any questions about these Terms, please contact us at saylencv@gmail.com.</p>
         </CardContent>
       </Card>
     </div>
